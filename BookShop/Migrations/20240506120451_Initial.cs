@@ -1,4 +1,6 @@
 ﻿using System;
+using BookShop.Models;
+using BookShop.Data;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable

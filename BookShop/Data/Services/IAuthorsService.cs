@@ -1,11 +1,13 @@
-﻿using BookShop.Data.Base;
-using BookStore.Models;
+﻿using BookShop.Models;
 
 namespace BookShop.Data.Services
 {
-    public interface IAuthorsService:IEntityBaseRepository<Author>
-
+    public interface IAuthorsService
     {
-
+        Task<IEnumerable<Author>> GetAllAsync();
+        Task<Author> GetByIdAsync(int id);
+        Task AddAsync(Author author);
+        Task<Author> UpdateAsync(Author author);
+        Task DeleteAsync(int id);
     }
 }

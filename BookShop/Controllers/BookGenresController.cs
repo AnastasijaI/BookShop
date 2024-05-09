@@ -1,4 +1,4 @@
-﻿using BookStore.Data;
+﻿using BookShop.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

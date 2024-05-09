@@ -1,9 +1,9 @@
-﻿using BookStore.Models;
+﻿using BookShop.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 
-namespace BookStore.Data
+namespace BookShop.Data
 {
     public class AppDbContext : DbContext
     {

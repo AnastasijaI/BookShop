@@ -1,4 +1,4 @@
-﻿@using BookStore.Models
+﻿
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -8,7 +8,8 @@
 @{
     ViewData["Title"] = "List of Books";
 }
-<div class="row">
+<body style="background-image: url('https://th.bing.com/th/id/OIP.Z78dh2qAZBWePOjRfwbIkwHaE7?rs=1&pid=ImgDetMain');">
+    <div class="row">
    
     @foreach (var item in Model)
     {
@@ -20,7 +21,8 @@
                             <p class="card-text">
                                 <h5 class="card-title">
                                     @item.Title
-                                    <a class="text-white float-end"><i class="bi bi-pencil-square"></i></a>
+                                    @* <a class="text-white float-end"><i class="bi bi-pencil-square"></i></a> *@
+                                    <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i>Edit</a>
                                 </h5>
                             </p>
                         </div>
@@ -33,7 +35,12 @@
                             <p class="card-text"><b>Author: </b>@item.Author.FirstName @item.Author.LastName</p>
                             @*<p class="card-text">Description Sample</p>*@
                             <p class="card-text"><b>Published: </b>@item.YearPublished</p>
-                           @*<p class="card-text"><b>Genre: </b>@item.BookGenres</p>*@
+                            <p class="card-text"><b>Genre: </b>
+                                @foreach (var genre in item.BookGenres)
+                                {
+                                    <span>@genre.Genre.GenreName</span><br />
+                                }
+                            </p> 
                                 @{
                                     int suma = 0;
                                     int br = 0;
@@ -58,56 +65,17 @@
                     <div class="col-md-12">
                         <div class="card-footer">
                             <p class="card-text">
-                                <a class="btn btn-outline-primary float-end"><i class="bi bi-eye-fill"></i>Details</a>
-                                @*<a class="btn btn-success text-white"><i class="bi bi-cart-plus"></i>Add To Cart</a>*@
+                                <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-eye"></i>Details</a>
+                                <a class="btn btn-danger text-white float-end" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i>Delete</a>
                             </p>
-
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </div>
      }
 </div>
-<div style="position: fixed; right: 25px; bottom: 30px;" class="text-white">
+<div style="position: fixed; right:100px; bottom: 55px;" class="text-white">
     <a asp-controller="Books" asp-action="Create" class="btn btn-success">AddNew</a>
 </div>
-
-
-
-
-
-
-
-
-        @*
-            <div class="col-md-8 offset-md-2">
-            <table class="table">
-                <thead>
-                    <tr class="text-center">
-                        <th>@Html.DisplayNameFor(model => model.FrontPage)</th>
-                        <th>@Html.DisplayNameFor(model => model.Title)</th>
-                        <th>@Html.DisplayNameFor(model => model.Description)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td class="align-middle">
-                                <img class="rounded-circle" src="@item.FrontPage" alt="@item.Title" style="max-width: 150px" />
-                            </td>
-                            <td class="align-middle">
-                                @Html.DisplayFor(modelItem => item.Title)
-                            </td>
-                            <td class="align-middle">
-                                @Html.DisplayFor(modelItem => item.Description)
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-        *@
+</body>

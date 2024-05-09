@@ -1,11 +1,11 @@
-﻿using BookShop.Data.Base;
+﻿
 using BookShop.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BookStore.Models
+namespace BookShop.Models
 {
-    public class Author:IEntityBase
+    public class Author
     {
         [Key]
         public int Id { get; set; }

@@ -1,14 +1,13 @@
-﻿@using BookStore.Models
-
+﻿
 @model Author
 
 @{
-    ViewData["Title"] = "Add a new author";
+    ViewData["Title"] = "Details";
 }
-<div class="row text">
+<div class="row text" style="background-color: gray;">
     <div class="col-md-8 offset-2">
         <p>
-            <h1>Details for @Model.FirstName @Model.LastName</h1>
+            <h1 style="text-align: center;">Details for @Model.FirstName @Model.LastName</h1>
         </p>
         <div class="row">
             <div class="col-md-8 offset-2">

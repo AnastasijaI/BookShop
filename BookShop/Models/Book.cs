@@ -1,11 +1,11 @@
-﻿using BookShop.Data.Base;
+﻿
 using BookShop.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BookStore.Models
+namespace BookShop.Models
 {
-    public class Book:IEntityBase
+    public class Book
     {
         [Key]
         public int Id { get; set; }
@@ -26,11 +26,11 @@ namespace BookStore.Models
         public string? DownloadUrl { get; set; }
         [ForeignKey("Author")]
         public int AuthorId { get; set; }
-        public Author Author { get; set; }
+        public Author? Author { get; set; }
 
-        public ICollection<BookGenre> BookGenres { get; set; }
-        public ICollection<Review> Reviews { get; set; }
-        public ICollection<UserBook> UserBooks { get; set; }
+        public ICollection<BookGenre>? BookGenres { get; set; }
+        public ICollection<Review>? Reviews { get; set; }
+        public ICollection<UserBook>? UserBooks { get; set; }
        
     }
 }

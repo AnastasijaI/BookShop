@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BookStore.Models
+namespace BookShop.Models
 {
     public class Genre
     {
@@ -10,6 +10,6 @@ namespace BookStore.Models
         [Column(TypeName = "nvarchar(50)")]
         public string GenreName { get; set; }
 
-        public ICollection<BookGenre> BookGenres { get; set; }
+        public ICollection<BookGenre>? BookGenres { get; set; }
     }
 }

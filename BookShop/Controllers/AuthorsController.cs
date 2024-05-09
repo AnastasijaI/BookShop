@@ -1,7 +1,8 @@
 ﻿using BookShop.Data.Services;
-using BookStore.Data;
-using BookStore.Models;
+using BookShop.Data;
+using BookShop.Models;
 using Microsoft.AspNetCore.Mvc;
+using BookShop.viewModel;
 
 namespace BookShop.Controllers
 {
@@ -14,7 +15,7 @@ namespace BookShop.Controllers
             _service = service;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(AuthorsViewModel authorsView)
         {
             var data = await _service.GetAllAsync();
             return View(data);
@@ -27,7 +28,7 @@ namespace BookShop.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("FirstName,LastName,BirthDate,Nationality,Gender")]Author author)
+        public async Task<IActionResult> Create(Author author)
         {
             if(!ModelState.IsValid) 
             {
@@ -54,13 +55,13 @@ namespace BookShop.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,BirthDate,Nationality,Gender")] Author author)
+        public async Task<IActionResult> Edit(int id, Author author)
         {
             if (!ModelState.IsValid)
             {
                 return View(author);
             }
-            await _service.UpdateAsync(id,author);
+            await _service.UpdateAsync(author);
             return RedirectToAction(nameof(Index));
         }
 

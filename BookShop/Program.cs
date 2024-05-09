@@ -1,5 +1,5 @@
 using BookShop.Data.Services;
-using BookStore.Data;
+using BookShop.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookShop
@@ -18,6 +18,13 @@ namespace BookShop
             ));
 
             builder.Services.AddScoped<IAuthorsService, AuthorsService>();
+
+            builder.Services.AddScoped<IBooksService, BooksService>();
+              
+            builder.Services.AddScoped<IGenresService, GenresService>();
+
+            builder.Services.AddScoped<IReviewsService, ReviewsService>();
+            builder.Services.AddScoped<IBooksGenresService, BooksGenresService>();
 
             var app = builder.Build();
 

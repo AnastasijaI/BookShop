@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BookStore.Models
+namespace BookShop.Models
 {
     public class UserBook
     {
@@ -12,6 +12,6 @@ namespace BookStore.Models
 
         [ForeignKey("Book")]
         public int BookId { get; set; }
-        public Book Book { get; set; }
+        public Book? Book { get; set; }
     }
 }

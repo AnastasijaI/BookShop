@@ -1,6 +1,6 @@
-﻿using BookStore.Models;
+﻿using BookShop.Models;
 
-namespace BookStore.Data
+namespace BookShop.Data
 {
     public class AppDbInitializer
     {
