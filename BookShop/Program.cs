@@ -1,3 +1,7 @@
+using BookShop.Data.Services;
+using BookStore.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace BookShop
 {
     public class Program
@@ -9,7 +13,18 @@ namespace BookShop
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
+                builder.Configuration.GetConnectionString("DefaultConnectionString")
+            ));
+
+            builder.Services.AddScoped<IAuthorsService, AuthorsService>();
+
             var app = builder.Build();
+
+            //if(args.Length == 1 && args[0].ToLower() == "seeddata")
+            //{
+            //    AppDbInitializer.Seed(app);
+            //}
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -29,6 +44,8 @@ namespace BookShop
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            AppDbInitializer.Seed(app);
 
             app.Run();
         }
