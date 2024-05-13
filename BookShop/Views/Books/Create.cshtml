@@ -13,15 +13,21 @@
         </p>
         <div class="row">
             <div class="col-md-8 offset-2">
-                <form asp-action="Create">
+               @*  <form asp-action="Create"> *@
+                <form method="post" enctype="multipart/form-data" asp-controller="Books" asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
 
                     <div class="form-group text-center">
                         <img id="FrontPage" class="border-info rounded-circle" style="max-width: 150px" />
                     </div>
-                    <div class="form-group">
+                    @* <div class="form-group">
                         <label asp-for="FrontPage" class="control-label"></label>
                         <input type="url" asp-for="FrontPage" class="form-control" />
+                        <span asp-validation-for="FrontPage" class="text-danger"></span>
+                    </div> *@
+                    <div class="form-group">
+                        <label asp-for="FrontPage" class="control-label"></label>
+                        <input type="file" name="frontPageImage" class="form-control" />
                         <span asp-validation-for="FrontPage" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -43,6 +49,11 @@
                         <label asp-for="Description" class="control-label"></label>
                         <input asp-for="Description" class="form-control" />
                         <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DownloadUrl" class="control-label"></label>
+                        <input asp-for="DownloadUrl" class="form-control" />
+                        <span asp-validation-for="DownloadUrl" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Publisher" class="control-label"></label>

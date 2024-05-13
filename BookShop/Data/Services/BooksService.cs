@@ -10,12 +10,16 @@ namespace BookShop.Data.Services
         {
             _context = context;
         }
-        public async Task AddAsync(Book book)
+        //public async Task AddAsync(Book book)
+        //{
+        //    await _context.Books.AddAsync(book);
+        //    await _context.SaveChangesAsync();
+        //}
+        public void Add(Book book)
         {
-            await _context.Books.AddAsync(book);
-            await _context.SaveChangesAsync();
+            _context.Books.Add(book);
+            _context.SaveChanges();
         }
-
         public async Task DeleteAsync(int id)
         {
             var result = await _context.Books.FirstOrDefaultAsync(n => n.Id == id);
@@ -35,10 +39,16 @@ namespace BookShop.Data.Services
             return result;
         }
 
-        public async Task<Book> UpdateAsync(int id, Book book)
+        //public async Task<Book> UpdateAsync(int id, Book book)
+        //{
+        //    _context.Update(book);
+        //    await _context.SaveChangesAsync();
+        //    return book;
+        //}
+        public Book Update(int id, Book book)
         {
             _context.Update(book);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return book;
         }
         public async Task<Book> GetLastBook()
@@ -56,6 +66,22 @@ namespace BookShop.Data.Services
         public async Task<IEnumerable<Genre>> GetAllGenres()
         {
             return await _context.Genres.ToListAsync();
+        }
+        public async Task<IEnumerable<Book>> GetBooksByAuthorId(int id)
+        {
+            return await _context.Books.Include(a => a.Author).Include(r => r.Reviews).Include(bg => bg.BookGenres).ThenInclude(g => g.Genre).Where(a => a.AuthorId.Equals(id)).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Book>> GetBooksByGenreId(int id)
+        {
+            List<BookGenre> bookGenres = await _context.BookGenres.Where(g => g.GenreId.Equals(id)).ToListAsync();
+            List<Book> books = new List<Book>();
+            foreach (var bg in bookGenres)
+            {
+                Book book = await GetByIdAsync(bg.BookId);
+                books.Add(book);
+            }
+            return books;
         }
     }
 }

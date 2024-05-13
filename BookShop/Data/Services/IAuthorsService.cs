@@ -9,5 +9,6 @@ namespace BookShop.Data.Services
         Task AddAsync(Author author);
         Task<Author> UpdateAsync(Author author);
         Task DeleteAsync(int id);
+        Task<IEnumerable<Author>> SearchByNameOrLastNameAsync(string searchString);
     }
 }

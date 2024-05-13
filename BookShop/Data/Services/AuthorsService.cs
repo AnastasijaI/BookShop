@@ -47,15 +47,23 @@ namespace BookShop.Data.Services
             await _context.SaveChangesAsync();
             return newAuthor;
         }
-        public async Task<IEnumerable<Author>> SearchByLastName(string lastName)
-        {
-            return await _context.Authors.Include(b => b.Books).Where(a => a.LastName.Contains(lastName)).ToListAsync();
-        }
+        //public async Task<IEnumerable<Author>> SearchByLastName(string lastName)
+        //{
+        //    return await _context.Authors.Include(b => b.Books).Where(a => a.LastName.Contains(lastName)).ToListAsync();
+        //}
 
-        public async Task<IEnumerable<Author>> SearchByName(string firstName)
+        //public async Task<IEnumerable<Author>> SearchByName(string firstName)
+        //{
+        //    return await _context.Authors.Include(b => b.Books).Where(a => a.FirstName.Contains(firstName)).ToListAsync();
+        //}
+        public async Task<IEnumerable<Author>> SearchByNameOrLastNameAsync(string searchString)
         {
-            return await _context.Authors.Include(b => b.Books).Where(a => a.FirstName.Contains(firstName)).ToListAsync();
-        }
+            var result = await _context.Authors
+                .Where(a => a.FirstName.Contains(searchString) || a.LastName.Contains(searchString))
+                .Include(b => b.Books)
+                .ToListAsync();
 
+            return result;
+        }
     }
 }

@@ -15,9 +15,21 @@ namespace BookShop.Controllers
             _service = service;
         }
 
-        public async Task<IActionResult> Index(AuthorsViewModel authorsView)
+        public async Task<IActionResult> Index(/*AuthorsViewModel authorsView,*/ string searchstring)
         {
-            var data = await _service.GetAllAsync();
+            //var data = await _service.GetAllAsync();
+            //return View(data);
+            IEnumerable<Author> data;
+
+            if (!String.IsNullOrEmpty(searchstring))
+            {
+                data = await _service.SearchByNameOrLastNameAsync(searchstring);
+            }
+            else
+            {
+                data = await _service.GetAllAsync();
+            }
+
             return View(data);
         }
 

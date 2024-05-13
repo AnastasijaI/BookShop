@@ -17,7 +17,7 @@ namespace BookShop.Controllers
         public async Task<IActionResult> Index()
         {
             var allGenres = await _service.GetAllAsync();
-            return View();
+            return View(allGenres);
         }
         //Get: Authors/Create
         public IActionResult Create()
@@ -32,18 +32,18 @@ namespace BookShop.Controllers
             {
                 return View(genre);
             }
-            await _service.AddAsync(genre);
+             _service.Add(genre);
             return RedirectToAction(nameof(Index));
         }
 
-        //Get: Authors/Details/1
-        public async Task<IActionResult> Details(int id)
-        {
-            var genreDetails = await _service.GetByIdAsync(id);
+        ////Get: Authors/Details/1
+        //public async Task<IActionResult> Details(int id)
+        //{
+        //    var genreDetails = await _service.GetByIdAsync(id);
 
-            if (genreDetails == null) return View("NotFound");
-            return View(genreDetails);
-        }
+        //    if (genreDetails == null) return View("NotFound");
+        //    return View(genreDetails);
+        //}
         //Get: Authors/Edit
         public async Task<IActionResult> Edit(int id)
         {

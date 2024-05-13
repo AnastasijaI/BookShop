@@ -6,13 +6,17 @@ namespace BookShop.Data.Services
     {
         Task<IEnumerable<Book>> GetAllAsync();
         Task<Book> GetByIdAsync(int id);
-        Task AddAsync(Book book);
-        Task<Book> UpdateAsync(int id, Book book);
+        void Add(Book book);
+        Book Update(int id, Book book);
+        //Task AddAsync(Book book);
+        //Task<Book> UpdateAsync(int id, Book book);
         Task DeleteAsync(int id);
         Task<Book> GetLastBook();
         Task<Book> GetByIdAsyncNoTracking(int id);
         Task<IEnumerable<Author>> GetAllAuthors();
         Task<IEnumerable<Genre>> GetAllGenres();
-
+        Task<IEnumerable<Book>> GetBooksByAuthorId(int id);
+        Task<IEnumerable<Book>> GetBooksByGenreId(int id);
+  
     }
 }

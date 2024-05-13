@@ -21,10 +21,29 @@ namespace BookShop.Controllers
             _genresService = genresService;
             _bookGenresService = bookGenresService;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString1, string searchString2, string searchString3)
         {
             var allBooks = await _service.GetAllAsync();
+            if (!String.IsNullOrEmpty(searchString1))
+            {
+                allBooks = allBooks.Where(n => n.Title.Contains(searchString1)).ToList();
+            }
+            if (!String.IsNullOrEmpty(searchString2))
+            {
+                allBooks = allBooks.Where(n => n.BookGenres.Any(
+                        bg => bg.Genre.GenreName.Contains(searchString2))
+                );
+            }
+            if (!String.IsNullOrEmpty(searchString3))
+            {
+                allBooks = allBooks.Where(n => n.Author.FirstName.Contains(searchString3) || n.Author.LastName.Contains(searchString3)).ToList();
+            }
             return View(allBooks);
+        }
+        public async Task<IActionResult> SearchByAuthorId(int id)
+        {
+            IEnumerable<Book> books = await _service.GetBooksByAuthorId(id);
+            return View(books);
         }
         //Get: Books/Create
         public async Task<IActionResult> Create()
@@ -39,7 +58,7 @@ namespace BookShop.Controllers
             return View(newVM);
         }
         [HttpPost]
-        public async Task<IActionResult> Create(CreateBooksViewModel bookVM)
+        public async Task<IActionResult> Create(CreateBooksViewModel bookVM, IFormFile frontPageImage)
         {
             if (!ModelState.IsValid)
             {
@@ -61,7 +80,20 @@ namespace BookShop.Controllers
                 AuthorId = bookVM.AuthorId,
                 DownloadUrl = bookVM.DownloadUrl,
             };
-            _service.AddAsync(newBook);
+            _service.Add(newBook);
+
+            if (frontPageImage != null && frontPageImage.Length > 0)
+            {
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(frontPageImage.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await frontPageImage.CopyToAsync(stream);
+                }
+
+                newBook.FrontPage = "/images/" + fileName; 
+            }
 
             Book newLastBook = await _service.GetLastBook();
             foreach (var genreId in bookVM.GenreIds)
@@ -140,7 +172,7 @@ namespace BookShop.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, EditBookViewModel bookVM)
+        public async Task<IActionResult> Edit(int id, EditBookViewModel bookVM, IFormFile frontPageImage)
         {
             if (!ModelState.IsValid)
             {
@@ -165,7 +197,19 @@ namespace BookShop.Controllers
                     DownloadUrl = bookVM.DownloadUrl,
                     AuthorId = bookVM.AuthorId,
                 };
-                _service.UpdateAsync(id, newBook);
+                _service.Update(id, newBook);
+                if (frontPageImage != null && frontPageImage.Length > 0)
+                {
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(frontPageImage.FileName);
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await frontPageImage.CopyToAsync(stream);
+                    }
+
+                    newBook.FrontPage = "/images/" + fileName;
+                }
                 IEnumerable<BookGenre> bookGenres = await _bookGenresService.GetAll();
                 foreach (var bg in bookGenres)
                 {

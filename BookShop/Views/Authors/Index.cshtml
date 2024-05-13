@@ -4,8 +4,21 @@
 @{
     ViewData["Title"] = "List of Authors";
 }
-
-<div class="row" style="background-color: whitesmoke;">
+<body style="background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20210504/pngtree-art-of-vintage-paper-for-writers-image_701738.jpg') ;">
+<div class="container">
+        <div class="row" style="background-color: beige; padding: 20px;">
+            <div class="col-md-6">
+                <form asp-controller="Authors" asp-action="Index" method="get">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Search by name or last name" name="searchString">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+<div class="row" style="background-color: beige;">
     <div class="col-md-8 offset-md-2">
         <table class="table">
             <thead>
@@ -40,7 +53,9 @@
         </table>
    </div>
 </div>
+</div>
  
 <div style="position: fixed; right: 100px; bottom: 100px; color:yellow;" class="text-white">
     <a asp-controller="Authors" asp-action="Create" class="btn btn-success">AddNew</a>
 </div>
+</body>

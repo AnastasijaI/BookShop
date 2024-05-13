@@ -4,7 +4,7 @@ namespace BookShop.viewModel
 {
     public class DeleteGenreViewModel
     {
-        public IEnumerable<Genre> Genres { get; set; }
+        public IEnumerable<Genre>? Genres { get; set; }
         public int genreId { get; set; }
     }
 }

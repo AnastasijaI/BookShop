@@ -24,16 +24,19 @@
                            <a class="nav-link text-dark" asp-controller="Books" asp-action="Index"><i class="badge-info bi bi-book"></i>Books</a>
                        </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Authors" asp-action="Index"><i class="badge-info bg-info bi-person"></i>Authors</a>
+                            <a class="nav-link text-dark" asp-controller="Authors" asp-action="Index"><i class="badge-info bi bi-person"></i>Authors</a>
+                        </li>
+                        <li>
+                            <a class="nav-link text-dark" asp-controller="Genres" asp-action="Index"><i class="badge-info bi bi-card-text"></i>Genres</a>
                         </li>
                     </ul>
 
-                    <form class="form-inline my-2 my-lg-0" asp-controller="Books" asp-action="Filter" style="padding-right: 25px;">
+                    @* <form class="form-inline my-2 my-lg-0" asp-controller="Books" asp-action="Filter" style="padding-right: 25px;">
                         <div class="input-group">
                             <input name="search" type="text" class="form-control" placeholder="Search for a book...">
                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="bg-info bi-search"></i></button>
                         </div>
-                    </form>
+                    </form> *@
 
                 </div>
             </div>

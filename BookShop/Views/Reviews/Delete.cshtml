@@ -1,25 +1,39 @@
-﻿@using BookShop.Models
-﻿
-@model Review
-@{
-    ViewData["Title"] = "Update Review";
-}
-<h3>Do you want to delete this review?</h3>
+﻿@model Review
 
-<form method="post" asp-action="DeleteReview">
-    <div class="form-group">
-        <label asp-for="AppUser">Username</label>
-        <input asp-for="AppUser" class="form-control" value="@Model.AppUser" disabled>
+@{
+    ViewData["Title"] = "Delete review";
+}
+<div class="row text" style="background-color: lightcoral;">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h1 style="text-align: center;">Delete @Model.AppUser </h1>
+        </p>
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <div class="form-group">
+                    <label asp-for="AppUser" class="control-label"></label>
+                    <input asp-for="AppUser" class="form-control" />
+                    <span asp-validation-for="AppUser" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Comment" class="control-label"></label>
+                    <input asp-for="Comment" class="form-control" />
+                    <span asp-validation-for="Comment" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Rating" class="control-label"></label>
+                    <input asp-for="Rating" class="form-control" />
+                    <span asp-validation-for="Rating" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="Id" />
+                        <input type="submit" value="Confirm" class="btn btn-danger float-end" />
+                    </form>
+                    <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="Comment"></label>
-        <textarea asp-for="Comment" class="form-control" value="@Model.Comment" disabled></textarea>
-    </div>
-    <div class="form-group">
-        <label asp-for="Rating"></label>
-        <input asp-for="Rating" class="form-control" value="@Model.Rating" disabled>
-    </div>
-    <br />
-    <button type="submit" class="btn btn-success">Yes</button>
-    <a asp-controller="book" asp-action="Details" asp-route-id="@Model.BookId" type="button" class="btn btn-danger">No</a>
-</form>
+</div>
+

@@ -24,28 +24,35 @@ namespace BookShop.Data.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Review>> GetAllAsync(int id)
-        {
-            var result = await _context.Reviews.Where(b => b.BookId.Equals(id)).ToListAsync();
-            return result;
-        }
-
-        public Task<IEnumerable<Review>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
+        //public async Task<IEnumerable<Review>> GetAllAsync()
+        //{
+        //    //Where(b => b.BookId.Equals(id))
+        //    var result = await _context.Reviews.Include(b => b.Book).ToListAsync();
+        //    return result;
+        //}
+        
         public async Task<Review> GetByIdAsync(int id)
         {
             var result = await _context.Reviews.FirstOrDefaultAsync(i => i.Id == id);
             return result;
         }
 
-        public async Task<Review> UpdateAsync(Review newReview)
+        public async Task<Review> UpdateAsync(Review review)
         {
-            _context.Update(newReview);
+            _context.Update(review);
             await _context.SaveChangesAsync();
-            return newReview;
+            return review;
+        }
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
+        }
+
+        public async Task<IEnumerable<Review>> GetAllAsync(int id)
+        {
+            var result = await _context.Reviews.Include(b => b.Book).ToListAsync();
+            return result;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace BookShop.Data.Services
     {
         Task<IEnumerable<Genre>> GetAllAsync();
         Task<Genre> GetByIdAsync(int id);
-        Task AddAsync(Genre genre);
+        void Add(Genre genre);
         Task<Genre> UpdateAsync(Genre genre);
         Task DeleteAsync(int id);
     }

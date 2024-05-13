@@ -1,26 +1,30 @@
-﻿
-@model Book
-
+﻿@using BookShop.viewModel
+@model EditBookViewModel
 @{
-    ViewData["Title"] = "Update book";
+    ViewData["Title"] = "Edit book";
 }
 <div class="row text">
     <div class="col-md-8 offset-2">
         <p>
-            <h1 >Update Author</h1>
+            <h1 >Update Book</h1>
         </p>
         <div class="row">
             <div class="col-md-8 offset-2">
-                <form asp-action="Edit">
-                    <input type="hidden" asp-for="AuthorId" value="@Model.AuthorId"/>
+                <form method="post" enctype="multipart/form-data" asp-controller="Books" asp-action="Edit">
+                    @* <input type="hidden" asp-for="AuthorId" value="@Model.AuthorId"/> *@
                     <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
 
-                    <div class="form-group text-center">
+                    @* <div class="form-group text-center">
                         <img id="FrontPage" class="border-info rounded-circle" style="max-width: 150px" />
-                    </div>
-                    <div class="form-group">
+                    </div> *@
+                    @* <div class="form-group">
                         <label asp-for="FrontPage" class="control-label"></label>
                         <input type="url" asp-for="FrontPage" class="form-control" />
+                        <span asp-validation-for="FrontPage" class="text-danger"></span>
+                    </div> *@
+                    <div class="form-group">
+                        <label asp-for="FrontPage" class="control-label"></label>
+                        <input type="file" name="frontPageImage" class="form-control" />
                         <span asp-validation-for="FrontPage" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -54,7 +58,28 @@
                         <span asp-validation-for="DownloadUrl" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Update" class="btn btn-outline-success float-end" />
+                        <label asp-for="AuthorId">Chose author</label>
+                        <select asp-for="AuthorId" class="form-control" >
+                            <option selected="selected">--Select--</option>
+                            @foreach (var author in Model.Authors)
+                            {
+                                <option value="@author.Id">@author.FirstName @author.LastName</option>
+                            }
+                        </select>
+                        <span asp-validation-for="AuthorId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="GenreIds">Genres:</label>
+                        <select asp-for="GenreIds" class="form-control">
+                            @foreach (var genre in Model.Genres)
+                            {
+                                <option value="@genre.Id">@genre.GenreName</option>
+                            }
+                        </select>
+                        <span asp-validation-for="GenreIds" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Edit" class="btn btn-outline-success float-end" />
                         <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
                     </div>
                 </form>

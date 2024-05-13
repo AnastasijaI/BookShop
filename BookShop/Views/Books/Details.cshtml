@@ -16,51 +16,23 @@
                     <img id="FrontPage" class="border-info rounded-circle" style="max-width: 150px" />
                 </div>
                 <div class="form-group">
-                    <label asp-for="FrontPage" class="control-label"></label>
-                    <input type="url" asp-for="FrontPage" class="form-control" />
-                    <span asp-validation-for="FrontPage" class="text-danger"></span>
-                </div>
-                <div class="form-group">
                     <label asp-for="Title" class="control-label"></label>
-                    <input asp-for="Title" class="form-control" />
+                    <input asp-for="Title" class="form-control" readonly />
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
                 <div class="form-group">
+                </div>
+                <div class="form-group">
                     <label asp-for="YearPublished" class="control-label"></label>
-                    <input asp-for="YearPublished" class="form-control" />
+                    <input asp-for="YearPublished" class="form-control" readonly />
                     <span asp-validation-for="YearPublished" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="NumPages" class="control-label"></label>
-                    <input asp-for="NumPages" class="form-control" />
-                    <span asp-validation-for="NumPages" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Description" class="control-label"></label>
-                    <input asp-for="Description" class="form-control" />
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Publisher" class="control-label"></label>
-                    <input asp-for="Publisher" class="form-control" />
-                    <span asp-validation-for="Publisher" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DownloadUrl" class="control-label"></label>
-                    <input asp-for="DownloadUrl" class="form-control" />
-                    <span asp-validation-for="DownloadUrl" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Author</label>
-                    <input class="form-control" asp-for="Author.FirstName" asp-for="Author.LastName" readonly />
-                    <span class="text-danger" asp-validation-for="Author.FirstName" asp-validation-for="Author.LastName"></span>
-                </div>
-                <div class="align-middle">
                     @foreach (var genre in Model.BookGenres)
                     {
-                        <span>@genre.Genre.GenreName</span>
-
-                        <br />
+                        <label asp-for="@genre.Genre.GenreName" class="control-label"></label>
+                        <input asp-for="@genre.Genre.GenreName" class="form-control" readonly />
+                        <span asp-validation-for="@genre.Genre.GenreName" class="text-danger"></span>
                     }
                 </div>
                 @{
@@ -74,8 +46,35 @@
                     }
                     if (br != 0) rating = suma / br;
                 }
-                <div class="align-middle">
-                    @rating
+                <div class="form-group">
+                    <label asp-for="@rating" class="control-label"></label>
+                    <input asp-for="@rating" class="form-control" readonly />
+                    <span asp-validation-for="@rating" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NumPages" class="control-label"></label>
+                    <input asp-for="NumPages" class="form-control" readonly />
+                    <span asp-validation-for="NumPages" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" readonly />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Publisher" class="control-label"></label>
+                    <input asp-for="Publisher" class="form-control" readonly />
+                    <span asp-validation-for="Publisher" class="text-danger"></span>
+                </div>
+                @*<div class="form-group">
+                    <label asp-for="DownloadUrl" class="control-label"></label>
+                    <input asp-for="DownloadUrl" class="form-control" readonly />
+                    <span asp-validation-for="DownloadUrl" class="text-danger"></span>
+                </div>*@
+                <div class="form-group">
+                    <label asp-for="DownloadUrl" class="control-label"></label>
+                    <a href="@Model.DownloadUrl" target="_blank">Download</a>
+                    <span asp-validation-for="DownloadUrl" class="text-danger"></span>
                 </div>
                 @* <div class="form-group">
                     <label asp-for="Author.FirstName" class="control-label"></label>
@@ -85,6 +84,9 @@
 
                 <div class="form-group">
                     <a class="btn btn-outline-success float-end" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                    @*<a class="btn btn-outline-success float-end" asp-action="Review" asp-route-id="@Model.Id">Review</a>*@
+                    <a class="btn btn-outline-success float-end" asp-controller="Reviews" asp-action="Index">Review</a>
+
                     <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
                 </div>
             </div>

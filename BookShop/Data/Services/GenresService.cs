@@ -11,10 +11,10 @@ namespace BookShop.Data.Services
         {
             _context = context;
         }
-        public async Task AddAsync(Genre genre)
+        public  void Add(Genre genre)
         {
-            await _context.Genres.AddAsync(genre);
-            await _context.SaveChangesAsync();
+            _context.Genres.Add(genre);
+            _context.SaveChanges();
         }
 
         public async Task DeleteAsync(int id)
@@ -42,7 +42,6 @@ namespace BookShop.Data.Services
             await _context.SaveChangesAsync();
             return newGenre;
         }
-
     }
 }
 

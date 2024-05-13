@@ -1,15 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BookShop.Models;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
-namespace BookShop.Models
+namespace BookShop.viewModel
 {
-    public class Review
+    public class BookReviewViewModel
     {
-        [Key]
-        public int Id { get; set; }
-        [ForeignKey("Book")]
         public int BookId { get; set; }
-        public Book ? Book { get; set; }
+        public Book? Book { get; set; }
 
         [Column(TypeName = "nvarchar(450)")]
         [Required(ErrorMessage = "AppUser is required")]
@@ -19,9 +17,5 @@ namespace BookShop.Models
         public string Comment { get; set; }
         [Required(ErrorMessage = "Raiting is required")]
         public int? Rating { get; set; }
-
-        
-
     }
 }
-
