@@ -9,6 +9,5 @@ namespace BookShop.Data.Services
         Task AddAsync(Review review);
         Task<Review> UpdateAsync(Review review);
         Task DeleteAsync(int id);
-        bool Save();
     }
 }

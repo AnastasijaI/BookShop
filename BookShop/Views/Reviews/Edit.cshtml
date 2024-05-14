@@ -2,10 +2,16 @@
 @{
     ViewData["Title"] = "Edit book";
 }
+<body style="
+      background-image: url('https://cdn.wallpapersafari.com/44/77/TQkLbJ.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;">
 <div class="row text">
     <div class="col-md-8 offset-2">
         <p>
-            <h1>Update Review</h1>
+                <h1 style="text-align: center;">Update Review</h1>
         </p>
         <div class="row">
             <div class="col-md-8 offset-2">
@@ -13,7 +19,7 @@
                     <input type="hidden" asp-for="BookId" value="@Model.BookId" />
                     <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
 
-                    <<div class="form-group">
+                    <div class="form-group">
                         <label asp-for="AppUser" class="control-label"></label>
                         <input asp-for="AppUser" class="form-control" placeholder="Username" />
                         <span asp-validation-for="AppUser" class="text-danger"></span>
@@ -45,3 +51,4 @@
         </div>
     </div>
 </div>
+</body>

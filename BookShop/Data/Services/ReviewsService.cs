@@ -43,12 +43,6 @@ namespace BookShop.Data.Services
             await _context.SaveChangesAsync();
             return review;
         }
-        public bool Save()
-        {
-            var saved = _context.SaveChanges();
-            return saved > 0 ? true : false;
-        }
-
         public async Task<IEnumerable<Review>> GetAllAsync(int id)
         {
             var result = await _context.Reviews.Include(b => b.Book).ToListAsync();

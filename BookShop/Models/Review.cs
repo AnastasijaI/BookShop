@@ -19,9 +19,6 @@ namespace BookShop.Models
         public string Comment { get; set; }
         [Required(ErrorMessage = "Raiting is required")]
         public int? Rating { get; set; }
-
-        
-
     }
 }
 

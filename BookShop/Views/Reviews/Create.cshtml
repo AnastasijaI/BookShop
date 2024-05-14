@@ -1,4 +1,59 @@
-﻿@model Review
+﻿@model BookShop.Models.Review
+
+@{
+    ViewData["Title"] = "Add a new review";
+}
+<body style="
+      background-image: url('https://cdn.wallpapersafari.com/44/77/TQkLbJ.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;">
+<div class="row text">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h1 style="text-align: center;">Add a new Review</h1>
+        </p>
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <form method="post" asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="BookId" />
+                    <div class="form-group">
+                        <label asp-for="AppUser" class="control-label"></label>
+                        <input asp-for="AppUser" class="form-control" />
+                        <span asp-validation-for="AppUser" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Comment" class="control-label"></label>
+                        <input asp-for="Comment" class="form-control" />
+                        <span asp-validation-for="Comment" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Rating"></label>
+                        <select asp-for="Rating" class="form-control">
+                            <option selected="selected">--Select--</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <span asp-validation-for="Rating" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-outline-success float-end" />
+                        <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+@* @model Review
 
 @{
     ViewData["Title"] = "Add a new review";
@@ -43,4 +98,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> *@

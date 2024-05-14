@@ -11,7 +11,7 @@ namespace BookShop.Controllers
     {
 
         private readonly IReviewsService _service;
-        public ReviewsController(IReviewsService service, IBooksService bookService)
+        public ReviewsController(IReviewsService service)
         {
             _service = service;
         }
@@ -20,27 +20,24 @@ namespace BookShop.Controllers
             var allReviews = await _service.GetAllAsync(id);
             return View(allReviews);
         }
-        public IActionResult Create()
+        public IActionResult Create(int bookId)
         {
-            return View();
+            var review = new Review { BookId = bookId };
+            return View(review);
         }
+
         [HttpPost]
-        public async Task<IActionResult> Create(int id, Review review)
+        public async Task<IActionResult> Create(Review review)
         {
             if (!ModelState.IsValid)
             {
                 return View(review);
             }
-            var newReview = new Review
-            {
-                BookId = id,
-                AppUser = review.AppUser,
-                Comment = review.Comment,
-                Rating = review.Rating,
-            };
-            _service.AddAsync(newReview);
-            return Redirect("/Reviews/Index/" + id);
+
+            await _service.AddAsync(review);
+            return Redirect("/Reviews/Index/" + review.BookId);
         }
+
         public async Task<IActionResult> Edit(int id)
         {
             var reviewDetails = await _service.GetByIdAsync(id);
@@ -50,6 +47,7 @@ namespace BookShop.Controllers
             }
             return View(reviewDetails);
         }
+
         [HttpPost]
         public async Task<IActionResult> Edit(int id, Review review)
         {
@@ -60,12 +58,14 @@ namespace BookShop.Controllers
             await _service.UpdateAsync(review);
             return Redirect("/Reviews/Index/" + review.BookId);
         }
+
         public async Task<IActionResult> Delete(int id)
         {
             var reviewDetails = await _service.GetByIdAsync(id);
             if (reviewDetails == null) return View("NotFound");
             return View(reviewDetails);
         }
+
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -75,6 +75,72 @@ namespace BookShop.Controllers
             await _service.DeleteAsync(id);
             return Redirect("/Reviews/Index/" + reviewDetails.BookId);
         }
+
+
+
+
+        //KODOVI KOI RABOTAT NO GI SMENIV MALKU GI CUVAM VO SLUCAJ AKO SAKAM PAK DA SMENAM NESTO
+        //public IActionResult Create()
+        //{
+        //    return View();
+        //}
+        //[HttpPost]
+        //public async Task<IActionResult> Create(int id, Review review)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(review);
+        //    }
+        //    var newReview = new Review
+        //    {
+        //        BookId = id,
+        //        AppUser = review.AppUser,
+        //        Comment = review.Comment,
+        //        Rating = review.Rating,
+        //    };
+        //     _service.AddAsync(newReview);
+        //    return Redirect("/Reviews/Index/" + id);
+        //}
+        //public async Task<IActionResult> Edit(int id)
+        //{
+        //    var reviewDetails = await _service.GetByIdAsync(id);
+        //    if (reviewDetails == null)
+        //    {
+        //        return View("NotFound");
+        //    }
+        //    return View(reviewDetails);
+        //}
+        //[HttpPost]
+        //public async Task<IActionResult> Edit(int id, Review review)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(review);
+        //    }
+        //    await _service.UpdateAsync(review);
+        //    return Redirect("/Reviews/Index/" + review.BookId);
+        //}
+        //public async Task<IActionResult> Delete(int id)
+        //{
+        //    var reviewDetails = await _service.GetByIdAsync(id);
+        //    if (reviewDetails == null) return View("NotFound");
+        //    return View(reviewDetails);
+        //}
+        //[HttpPost, ActionName("Delete")]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var reviewDetails = await _service.GetByIdAsync(id);
+        //    if (reviewDetails == null) return View("NotFound");
+
+        //    await _service.DeleteAsync(id);
+        //    return Redirect("/Reviews/Index/" + reviewDetails.BookId);
+        //}
+
+
+
+
+
+
 
         //private readonly IReviewsService _service;
         //private readonly IBooksService _bookService;
