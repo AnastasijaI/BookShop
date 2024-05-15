@@ -239,6 +239,17 @@ namespace BookShop.Controllers
                 return View(bookVM);
             }
         }
+
+        public async Task<IActionResult> BooksByAuthor(int authorId)
+        {
+            var books = await _service.GetBooksByAuthorId(authorId);
+            if (books == null || !books.Any())
+            {
+                return View("NotFound");
+            }
+            ViewBag.AuthorName = books.First().Author.FirstName + " " + books.First().Author.LastName;
+            return View(books);
+        }
     }
 }
 

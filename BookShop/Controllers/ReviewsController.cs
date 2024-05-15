@@ -78,7 +78,6 @@ namespace BookShop.Controllers
 
 
 
-
         //KODOVI KOI RABOTAT NO GI SMENIV MALKU GI CUVAM VO SLUCAJ AKO SAKAM PAK DA SMENAM NESTO
         //public IActionResult Create()
         //{

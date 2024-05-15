@@ -1,11 +1,12 @@
 ﻿using BookShop.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 
 namespace BookShop.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<AppUser>
     {
 
 
@@ -22,14 +23,21 @@ namespace BookShop.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<BookGenre>().HasKey(bg => new
+            {
+                bg.BookId,
+                bg.GenreId
+            });
+            modelBuilder.Entity<BookGenre>().HasOne(b => b.Book).WithMany(bg => bg.BookGenres).HasForeignKey(b => b.BookId);
+            modelBuilder.Entity<BookGenre>().HasOne(b => b.Genre).WithMany(bg => bg.BookGenres).HasForeignKey(b => b.GenreId);
 
         }
 
-        internal async Task<string?> GetByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
+        //internal async Task<string?> GetByIdAsync(int id)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }
 

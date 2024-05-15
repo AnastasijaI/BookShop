@@ -8,72 +8,73 @@
       background-repeat: no-repeat;
       background-attachment: fixed;
       background-position: center;">
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <div class="card text-center border-primary">
-                <div class="card-header bg-primary text-white">
-                    <h2>@Model.Title</h2>
-                </div>
-                <div class="card-body">
-                    <p><strong class="text-primary">Author:</strong> <span class="text-dark">@Model.Author.FirstName @Model.Author.LastName</span></p>
-                    <p><strong class="text-primary">Publisher:</strong> <span class="text-dark">@Model.Publisher</span></p>
-                    <p><strong class="text-primary">Published:</strong> <span class="text-dark">@Model.YearPublished</span></p>
-                    <p><strong class="text-primary">Pages:</strong> <span class="text-dark">@Model.NumPages</span></p>
-                    <p>
-                        <strong class="text-primary">Genre:</strong>
-                        <span class="text-dark">
-                            @foreach (var genre in Model.BookGenres)
-                            {
-                                <span>@genre.Genre.GenreName</span>
-                                <br />
-                            }
-                        </span>
-                    </p>
-                    <p>
-                        <strong class="text-primary">Grade:</strong>
-                        <span class="text-dark">
-                            @{
-                                int suma = 0;
-                                int br = 0;
-                                var rating = "/";
-                                foreach (var r in Model.Reviews)
-                                {
-                                    suma += r.Rating.GetValueOrDefault();
-                                    br++;
-                                }
-                                if (br != 0)
-                                {
-                                    rating = (suma / br).ToString();
-                                }
-                            }
-                            @rating
-                        </span>
-                    </p>
-                    <p><strong class="text-primary">Description:</strong> <span class="text-dark">@Model.Description</span></p>
-                    <div class="form-group mt-3">
-                        <label asp-for="DownloadUrl" class="text-primary"></label>
-                        <a href="@Model.DownloadUrl" target="_blank" class="btn btn-outline-primary">Download</a>
-                        <span asp-validation-for="DownloadUrl" class="text-danger"></span>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card text-center border-primary">
+                    <div class="card-header bg-primary text-white">
+                        <h2>@Model.Title</h2>
                     </div>
-                </div>
-                <div class="card-footer">
-                    <h3 class="text-primary">Reviews</h3>
-                    <ul class="list-group list-group-flush">
-                        @foreach (var review in Model.Reviews)
-                        {
-                            <li class="list-group-item">
-                                <strong class="text-primary">@review.AppUser:</strong> <span class="text-dark">@review.Comment</span> <br />
-                                <strong class="text-primary">Rating:</strong> <span class="text-dark">@review.Rating</span>
-                            </li>
-                        }
-                    </ul>
-                    <div class="mt-3">
-                        <a asp-controller="Reviews" asp-action="Create" asp-route-bookId="@Model.Id" class="btn btn-success">Add Review</a>
+                    <div class="card-body">
+                        <img src="@Model.FrontPage" alt="Book Front Page" class="img-fluid mt-2" style="max-height: 400px;" />
+                        <p><strong class="text-primary">Author:</strong> <span class="text-dark">@Model.Author.FirstName @Model.Author.LastName</span></p>
+                        <p><strong class="text-primary">Publisher:</strong> <span class="text-dark">@Model.Publisher</span></p>
+                        <p><strong class="text-primary">Published:</strong> <span class="text-dark">@Model.YearPublished</span></p>
+                        <p><strong class="text-primary">Pages:</strong> <span class="text-dark">@Model.NumPages</span></p>
+                        <p>
+                            <strong class="text-primary">Genre:</strong>
+                            <span class="text-dark">
+                                @foreach (var genre in Model.BookGenres)
+                                {
+                                    <span>@genre.Genre.GenreName</span>
+                                    <br />
+                                }
+                            </span>
+                        </p>
+                        <p>
+                            <strong class="text-primary">Grade:</strong>
+                            <span class="text-dark">
+                                @{
+                                    int suma = 0;
+                                    int br = 0;
+                                    var rating = "/";
+                                    foreach (var r in Model.Reviews)
+                                    {
+                                        suma += r.Rating.GetValueOrDefault();
+                                        br++;
+                                    }
+                                    if (br != 0)
+                                    {
+                                        rating = (suma / br).ToString();
+                                    }
+                                }
+                                @rating
+                            </span>
+                        </p>
+                        <p><strong class="text-primary">Description:</strong> <span class="text-dark">@Model.Description</span></p>
+                        <div class="form-group mt-3">
+                            <label asp-for="DownloadUrl" class="text-primary"></label>
+                            <a href="@Model.DownloadUrl" target="_blank" class="btn btn-outline-primary">Download</a>
+                            <span asp-validation-for="DownloadUrl" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <h3 class="text-primary">Reviews</h3>
+                        <ul class="list-group list-group-flush">
+                            @foreach (var review in Model.Reviews)
+                            {
+                                <li class="list-group-item">
+                                    <strong class="text-primary">@review.AppUser:</strong> <span class="text-dark">@review.Comment</span> <br />
+                                    <strong class="text-primary">Rating:</strong> <span class="text-dark">@review.Rating</span>
+                                </li>
+                            }
+                        </ul>
+                        <div class="mt-3">
+                            <a asp-controller="Reviews" asp-action="Create" asp-route-bookId="@Model.Id" class="btn btn-success">Add Review</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </body>

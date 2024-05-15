@@ -13,7 +13,9 @@ namespace BookShop.Models
 
         [Column(TypeName = "nvarchar(450)")]
         [Required(ErrorMessage = "AppUser is required")]
+        [ForeignKey("AppUserInfo")]
         public string AppUser { get; set; }
+        public AppUser? AppUserInfo { get; set; }
         [Column(TypeName = "nvarchar(500)")]
         [Required(ErrorMessage = "Comment is required")]
         public string Comment { get; set; }
