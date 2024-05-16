@@ -22,7 +22,7 @@ namespace BookShop.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("BookShop.Models.AppUser", b =>
+            modelBuilder.Entity("BookShop.Areas.Identity.Data.BookShopUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -117,7 +117,7 @@ namespace BookShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors", (string)null);
+                    b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("BookShop.Models.Book", b =>
@@ -162,25 +162,30 @@ namespace BookShop.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Books", (string)null);
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("BookShop.Models.BookGenre", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
                     b.Property<int>("GenreId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.HasKey("Id");
 
-                    b.HasKey("BookId", "GenreId");
+                    b.HasIndex("BookId");
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("BookGenres", (string)null);
+                    b.ToTable("BookGenres");
                 });
 
             modelBuilder.Entity("BookShop.Models.Genre", b =>
@@ -197,7 +202,7 @@ namespace BookShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genres", (string)null);
+                    b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("BookShop.Models.Review", b =>
@@ -220,16 +225,13 @@ namespace BookShop.Migrations
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<int?>("Rating")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUser");
-
                     b.HasIndex("BookId");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("BookShop.Models.UserBook", b =>
@@ -241,7 +243,6 @@ namespace BookShop.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AppUser")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("BookId")
@@ -249,11 +250,9 @@ namespace BookShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUser");
-
                     b.HasIndex("BookId");
 
-                    b.ToTable("UserBooks", (string)null);
+                    b.ToTable("UserBooks");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -421,38 +420,22 @@ namespace BookShop.Migrations
 
             modelBuilder.Entity("BookShop.Models.Review", b =>
                 {
-                    b.HasOne("BookShop.Models.AppUser", "AppUserInfo")
-                        .WithMany("Reviews")
-                        .HasForeignKey("AppUser")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("BookShop.Models.Book", "Book")
                         .WithMany("Reviews")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("AppUserInfo");
 
                     b.Navigation("Book");
                 });
 
             modelBuilder.Entity("BookShop.Models.UserBook", b =>
                 {
-                    b.HasOne("BookShop.Models.AppUser", "AppUserInfo")
-                        .WithMany("UserBooks")
-                        .HasForeignKey("AppUser")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("BookShop.Models.Book", "Book")
                         .WithMany("UserBooks")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("AppUserInfo");
 
                     b.Navigation("Book");
                 });
@@ -468,7 +451,7 @@ namespace BookShop.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("BookShop.Models.AppUser", null)
+                    b.HasOne("BookShop.Areas.Identity.Data.BookShopUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -477,7 +460,7 @@ namespace BookShop.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("BookShop.Models.AppUser", null)
+                    b.HasOne("BookShop.Areas.Identity.Data.BookShopUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -492,7 +475,7 @@ namespace BookShop.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookShop.Models.AppUser", null)
+                    b.HasOne("BookShop.Areas.Identity.Data.BookShopUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -501,18 +484,11 @@ namespace BookShop.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("BookShop.Models.AppUser", null)
+                    b.HasOne("BookShop.Areas.Identity.Data.BookShopUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("BookShop.Models.AppUser", b =>
-                {
-                    b.Navigation("Reviews");
-
-                    b.Navigation("UserBooks");
                 });
 
             modelBuilder.Entity("BookShop.Models.Author", b =>

@@ -3,6 +3,7 @@ using BookShop.Data;
 using BookShop.Models;
 using Microsoft.AspNetCore.Mvc;
 using BookShop.viewModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookShop.Controllers
 {
@@ -34,11 +35,12 @@ namespace BookShop.Controllers
         }
 
         //Get: Authors/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(Author author)
         {
@@ -59,13 +61,14 @@ namespace BookShop.Controllers
             return View(authorDetails);
         }
         //Get: Authors/Edit
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
             var authorDetails = await _service.GetByIdAsync(id);
             if (authorDetails == null) return View("NotFound");
             return View(authorDetails);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(int id, Author author)
         {
@@ -78,13 +81,14 @@ namespace BookShop.Controllers
         }
 
         //Get: Authors/Delete
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var authorDetails = await _service.GetByIdAsync(id);
             if (authorDetails == null) return View("NotFound");
             return View(authorDetails);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

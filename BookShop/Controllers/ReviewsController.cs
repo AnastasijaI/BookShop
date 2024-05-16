@@ -4,6 +4,7 @@ using BookShop.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookShop.Controllers
 {
@@ -20,12 +21,13 @@ namespace BookShop.Controllers
             var allReviews = await _service.GetAllAsync(id);
             return View(allReviews);
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(int bookId)
         {
             var review = new Review { BookId = bookId };
             return View(review);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(Review review)
         {
@@ -37,7 +39,7 @@ namespace BookShop.Controllers
             await _service.AddAsync(review);
             return Redirect("/Reviews/Index/" + review.BookId);
         }
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
             var reviewDetails = await _service.GetByIdAsync(id);
@@ -47,7 +49,7 @@ namespace BookShop.Controllers
             }
             return View(reviewDetails);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(int id, Review review)
         {
@@ -58,14 +60,14 @@ namespace BookShop.Controllers
             await _service.UpdateAsync(review);
             return Redirect("/Reviews/Index/" + review.BookId);
         }
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var reviewDetails = await _service.GetByIdAsync(id);
             if (reviewDetails == null) return View("NotFound");
             return View(reviewDetails);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

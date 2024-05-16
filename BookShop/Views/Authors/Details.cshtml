@@ -4,7 +4,41 @@
 @{
     ViewData["Title"] = "Details";
 }
+
 <body style="
+      background-image: url('https://cdn.wallpapersafari.com/44/77/TQkLbJ.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card text-center border-primary">
+                    <div class="card-header bg-primary text-white">
+                        <h2>Details for @Model.FirstName @Model.LastName</h2>
+                    </div>
+                    <div class="card-body">
+                        <p><strong class="text-primary">First Name:</strong> <span class="text-dark">@Model.FirstName</span></p>
+                        <p><strong class="text-primary">Last Name:</strong> <span class="text-dark">@Model.LastName</span></p>
+                        <p><strong class="text-primary">Birth Date:</strong> <span class="text-dark">@Model.BirthDate?.ToShortDateString()</span></p>
+                        <p><strong class="text-primary">Nationality:</strong> <span class="text-dark">@Model.Nationality</span></p>
+                        <p><strong class="text-primary">Gender:</strong> <span class="text-dark">@Model.Gender</span></p>
+                        <div class="form-group mt-3">
+                             @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                {
+                                    <a class="btn btn-outline-success" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                                }
+                                <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+@* <body style="
       background-image: url('https://cdn.wallpapersafari.com/44/77/TQkLbJ.jpg');
       background-size: cover;
       background-repeat: no-repeat;
@@ -52,4 +86,4 @@
     </div>
 </div>
 
-</body>
+</body> *@

@@ -4,22 +4,29 @@ using BookShop.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BookShop.viewModel;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using BookShop.Areas.Identity.Data;
 
 namespace BookShop.Controllers
 {
     public class BooksController : Controller
     {
+       // private readonly AppDbContext _context;
         private readonly IBooksService _service;
         private readonly IAuthorsService _authorsService;
         private readonly IGenresService _genresService;
         private readonly IBooksGenresService _bookGenresService;
+        //private readonly UserManager<BookShopUser> _userManager;
 
-        public BooksController(IBooksService service, IAuthorsService authorsService, IGenresService genresService, IBooksGenresService bookGenresService)
+        public BooksController(IBooksService service, IAuthorsService authorsService, IGenresService genresService, IBooksGenresService bookGenresService/*, UserManager<BookShopUser> userManager, AppDbContext context*/)
         {
             _service = service;
             _authorsService = authorsService;
             _genresService = genresService;
             _bookGenresService = bookGenresService;
+            //_context = context;
         }
         public async Task<IActionResult> Index(string searchString1, string searchString2, string searchString3)
         {
@@ -46,6 +53,7 @@ namespace BookShop.Controllers
             return View(books);
         }
         //Get: Books/Create
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create()
         {
             IEnumerable<Author> authors = await _authorsService.GetAllAsync();
@@ -57,6 +65,7 @@ namespace BookShop.Controllers
             };
             return View(newVM);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(CreateBooksViewModel bookVM, IFormFile frontPageImage)
         {
@@ -108,6 +117,7 @@ namespace BookShop.Controllers
             return RedirectToAction("Index");
         }
         //Get: Book/Delete
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             Book book = await _service.GetByIdAsync(id);
@@ -117,6 +127,7 @@ namespace BookShop.Controllers
             }
             return View(book);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteBookConfirmed(int id)
         {
@@ -138,7 +149,7 @@ namespace BookShop.Controllers
             }
             return View(actorDetails);
         }
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
             Book book = await _service.GetByIdAsyncNoTracking(id);
@@ -170,7 +181,7 @@ namespace BookShop.Controllers
             };
             return View(bookVM);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(int id, EditBookViewModel bookVM, IFormFile frontPageImage)
         {
@@ -250,6 +261,31 @@ namespace BookShop.Controllers
             ViewBag.AuthorName = books.First().Author.FirstName + " " + books.First().Author.LastName;
             return View(books);
         }
+    //    [HttpPost]
+    //    [Authorize]
+    //    public async Task<IActionResult> Buy(int bookId)
+    //    {
+    //        var user = await _userManager.GetUserAsync(User);
+    //        var book = await _context.Books.FindAsync(bookId);
+    //        if (user != null && book != null)
+    //        {
+    //            var userBook = new UserBook
+    //            {
+    //                AppUser = user.Id,
+    //                BookId = bookId
+    //            };
+    //            _context.UserBooks.Add(userBook);
+    //            await _context.SaveChangesAsync();
+    //            return Json(new { success = true });
+    //        }
+    //        return Json(new { success = false });
+    //    }
+
+    //    public async Task<bool> HasUserBoughtBook(BookShopUser user, int bookId)
+    //    {
+    //        return await _context.UserBooks.AnyAsync(ub => ub.AppUser == user.Id && ub.BookId == bookId);
+    //    }
+
     }
 }
 

@@ -1,15 +1,40 @@
-﻿using BookShop.Models;
+﻿using BookShop.Areas.Identity.Data;
+using BookShop.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BookShop.Data
 {
     public class AppDbInitializer
     {
+        public static async Task CreateUserRoles(IServiceProvider serviceProvider)
+        {
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<BookShopUser>>();
+            IdentityResult roleResult;
+            //Add Admin Role
+            var roleCheck = await RoleManager.RoleExistsAsync("Admin");
+            if (!roleCheck) { roleResult = await RoleManager.CreateAsync(new IdentityRole("Admin")); }
+            BookShopUser user = await UserManager.FindByEmailAsync("admin@mvcmovie.com");
+            if (user == null)
+            {
+                var User = new BookShopUser();
+                User.Email = "admin@mvcmovie.com";
+                User.UserName = "admin@mvcmovie.com";
+                string userPWD = "Admin123";
+                IdentityResult chkUser = await UserManager.CreateAsync(User, userPWD);
+                //Add default User to Role Admin 
+                if (chkUser.Succeeded) { var result1 = await UserManager.AddToRoleAsync(User, "Admin"); }
+            }
+        }
         public static void Seed(IApplicationBuilder applicationBuilder)
         {
             using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetService<AppDbContext>();
+                
+                CreateUserRoles(serviceScope.ServiceProvider).Wait();
 
                 context.Database.EnsureCreated();
 
@@ -222,53 +247,6 @@ namespace BookShop.Data
                         }
                     });
                     context.SaveChanges();
-                }
-            }
-        }
-        public static async Task SeedUsersAndRolesAsync(IApplicationBuilder applicationBuilder)
-        {
-            using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
-            {
-                //Roles
-                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-
-                if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
-                    await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
-                if (!await roleManager.RoleExistsAsync(UserRoles.User))
-                    await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
-
-                //Users
-                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
-                string adminUserEmail = "admin@gmail.com";
-
-                var adminUser = await userManager.FindByEmailAsync(adminUserEmail);
-                if (adminUser == null)
-                {
-                    var newAdminUser = new AppUser()
-                    {
-                        UserName = "app-admin",
-                        Email = adminUserEmail,
-                        EmailConfirmed = true,
-
-                    };
-                    await userManager.CreateAsync(newAdminUser, "Coding@1234?");
-                    await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
-                }
-
-                string appUserEmail = "user@gmail.com";
-
-                var appUser = await userManager.FindByEmailAsync(appUserEmail);
-                if (appUser == null)
-                {
-                    var newAppUser = new AppUser()
-                    {
-                        UserName = "app-user",
-                        Email = appUserEmail,
-                        EmailConfirmed = true,
-
-                    };
-                    await userManager.CreateAsync(newAppUser, "Coding@1234?");
-                    await userManager.AddToRoleAsync(newAppUser, UserRoles.User);
                 }
             }
         }

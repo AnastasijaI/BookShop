@@ -3,7 +3,13 @@
 @{
     ViewData["Title"] = "List of Authors";
 }
-<div class="row" style="background-color: whitesmoke;">
+<body style="
+      background-image: url('https://cdn.wallpapersafari.com/44/77/TQkLbJ.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;">
+<div class="row">
     <div class="col-md-8 offset-md-2">
         <table class="table">
             <thead>
@@ -27,10 +33,13 @@
                         <td class="align-middle">
                             @Html.DisplayFor(modelItem => item.Rating)
                         </td>
-                        <td class="align-middle">
-                            <a class="btn btn-outline-primary" asp-controller="Reviews" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square">Edit</i></a>
-                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash">Delete</i></a>
-                        </td>
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                            {
+                                <td class="align-middle">
+                                    <a class="btn btn-outline-primary" asp-controller="Reviews" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square">Edit</i></a>
+                                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash">Delete</i></a>
+                                </td>
+                            }
                     </tr>
                 }
             </tbody>
@@ -38,7 +47,10 @@
         </table>
     </div>
 </div>
-
-<div style="position: fixed; right: 100px; bottom: 100px;" class="text-white">
-     <a asp-controller="Reviews" asp-action="Create" asp-route-id="@Model.FirstOrDefault().BookId" class="btn btn-success">Add New</a>
-</div>
+ @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+{
+    <div style="position: fixed; right: 100px; bottom: 100px;" class="text-white">
+         <a asp-controller="Reviews" asp-action="Create" asp-route-id="@Model.FirstOrDefault().BookId" class="btn btn-success">Add New</a>
+    </div>
+}
+</body>

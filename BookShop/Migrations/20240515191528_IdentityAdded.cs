@@ -6,11 +6,99 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BookShop.Migrations
 {
     /// <inheritdoc />
-    public partial class Identity : Migration
+    public partial class IdentityAdded : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterColumn<string>(
+                name: "AppUser",
+                table: "UserBooks",
+                type: "nvarchar(450)",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(450)");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "YearPublished",
+                table: "Books",
+                type: "int",
+                nullable: false,
+                defaultValue: 0,
+                oldClrType: typeof(int),
+                oldType: "int",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Publisher",
+                table: "Books",
+                type: "nvarchar(50)",
+                nullable: false,
+                defaultValue: "",
+                oldClrType: typeof(string),
+                oldType: "nvarchar(50)",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<int>(
+                name: "NumPages",
+                table: "Books",
+                type: "int",
+                nullable: false,
+                defaultValue: 0,
+                oldClrType: typeof(int),
+                oldType: "int",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "DownloadUrl",
+                table: "Books",
+                type: "nvarchar(max)",
+                nullable: false,
+                defaultValue: "",
+                oldClrType: typeof(string),
+                oldType: "nvarchar(max)",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Description",
+                table: "Books",
+                type: "nvarchar(max)",
+                nullable: false,
+                defaultValue: "",
+                oldClrType: typeof(string),
+                oldType: "nvarchar(max)",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Nationality",
+                table: "Authors",
+                type: "nvarchar(50)",
+                nullable: false,
+                defaultValue: "",
+                oldClrType: typeof(string),
+                oldType: "nvarchar(50)",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Gender",
+                table: "Authors",
+                type: "nvarchar(50)",
+                nullable: false,
+                defaultValue: "",
+                oldClrType: typeof(string),
+                oldType: "nvarchar(50)",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<DateTime>(
+                name: "BirthDate",
+                table: "Authors",
+                type: "datetime2",
+                nullable: false,
+                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                oldClrType: typeof(DateTime),
+                oldType: "datetime2",
+                oldNullable: true);
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -157,16 +245,6 @@ namespace BookShop.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserBooks_AppUser",
-                table: "UserBooks",
-                column: "AppUser");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Reviews_AppUser",
-                table: "Reviews",
-                column: "AppUser");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
@@ -204,35 +282,11 @@ namespace BookShop.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Reviews_AspNetUsers_AppUser",
-                table: "Reviews",
-                column: "AppUser",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_UserBooks_AspNetUsers_AppUser",
-                table: "UserBooks",
-                column: "AppUser",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Reviews_AspNetUsers_AppUser",
-                table: "Reviews");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_UserBooks_AspNetUsers_AppUser",
-                table: "UserBooks");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -254,13 +308,79 @@ namespace BookShop.Migrations
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
-            migrationBuilder.DropIndex(
-                name: "IX_UserBooks_AppUser",
-                table: "UserBooks");
+            migrationBuilder.AlterColumn<string>(
+                name: "AppUser",
+                table: "UserBooks",
+                type: "nvarchar(450)",
+                nullable: false,
+                defaultValue: "",
+                oldClrType: typeof(string),
+                oldType: "nvarchar(450)",
+                oldNullable: true);
 
-            migrationBuilder.DropIndex(
-                name: "IX_Reviews_AppUser",
-                table: "Reviews");
+            migrationBuilder.AlterColumn<int>(
+                name: "YearPublished",
+                table: "Books",
+                type: "int",
+                nullable: true,
+                oldClrType: typeof(int),
+                oldType: "int");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Publisher",
+                table: "Books",
+                type: "nvarchar(50)",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(50)");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "NumPages",
+                table: "Books",
+                type: "int",
+                nullable: true,
+                oldClrType: typeof(int),
+                oldType: "int");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "DownloadUrl",
+                table: "Books",
+                type: "nvarchar(max)",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(max)");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Description",
+                table: "Books",
+                type: "nvarchar(max)",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(max)");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Nationality",
+                table: "Authors",
+                type: "nvarchar(50)",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(50)");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Gender",
+                table: "Authors",
+                type: "nvarchar(50)",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(50)");
+
+            migrationBuilder.AlterColumn<DateTime>(
+                name: "BirthDate",
+                table: "Authors",
+                type: "datetime2",
+                nullable: true,
+                oldClrType: typeof(DateTime),
+                oldType: "datetime2");
         }
     }
 }
