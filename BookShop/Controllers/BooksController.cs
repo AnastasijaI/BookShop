@@ -19,13 +19,15 @@ namespace BookShop.Controllers
         private readonly IGenresService _genresService;
         private readonly IBooksGenresService _bookGenresService;
         //private readonly UserManager<BookShopUser> _userManager;
+        private readonly IUserBooksService _userBooksService;
 
-        public BooksController(IBooksService service, IAuthorsService authorsService, IGenresService genresService, IBooksGenresService bookGenresService/*, UserManager<BookShopUser> userManager, AppDbContext context*/)
+        public BooksController(IBooksService service, IAuthorsService authorsService, IGenresService genresService, IBooksGenresService bookGenresService, IUserBooksService userBooksService)
         {
             _service = service;
             _authorsService = authorsService;
             _genresService = genresService;
             _bookGenresService = bookGenresService;
+            _userBooksService = userBooksService;
             //_context = context;
         }
         public async Task<IActionResult> Index(string searchString1, string searchString2, string searchString3)
@@ -261,31 +263,51 @@ namespace BookShop.Controllers
             ViewBag.AuthorName = books.First().Author.FirstName + " " + books.First().Author.LastName;
             return View(books);
         }
-    //    [HttpPost]
-    //    [Authorize]
-    //    public async Task<IActionResult> Buy(int bookId)
-    //    {
-    //        var user = await _userManager.GetUserAsync(User);
-    //        var book = await _context.Books.FindAsync(bookId);
-    //        if (user != null && book != null)
-    //        {
-    //            var userBook = new UserBook
-    //            {
-    //                AppUser = user.Id,
-    //                BookId = bookId
-    //            };
-    //            _context.UserBooks.Add(userBook);
-    //            await _context.SaveChangesAsync();
-    //            return Json(new { success = true });
-    //        }
-    //        return Json(new { success = false });
-    //    }
 
-    //    public async Task<bool> HasUserBoughtBook(BookShopUser user, int bookId)
-    //    {
-    //        return await _context.UserBooks.AnyAsync(ub => ub.AppUser == user.Id && ub.BookId == bookId);
-    //    }
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Buy(int bookId)
+        {
+            // Проверка дали корисникот е најавен
+            if (!User.Identity.IsAuthenticated)
+            {
+                // Ако корисникот не е најавен, пренасочи го кон страницата за најава
+                return RedirectToAction("Login", "Account");
+            }
+
+            // Добивање на идентификацискиот клуч на корисникот
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            // Додавање на купената книга во базата на податоци или во листата на корисникот
+            await _userBooksService.AddBookToUser(userId, bookId);
+
+            // Пренасочување на корисникот кон вјуто за купени книги
+            return RedirectToAction("Index", "UserBooks");
+        }
+        //    [HttpPost]
+        //    [Authorize]
+        //    public async Task<IActionResult> Buy(int bookId)
+        //    {
+        //        var user = await _userManager.GetUserAsync(User);
+        //        var book = await _context.Books.FindAsync(bookId);
+        //        if (user != null && book != null)
+        //        {
+        //            var userBook = new UserBook
+        //            {
+        //                AppUser = user.Id,
+        //                BookId = bookId
+        //            };
+        //            _context.UserBooks.Add(userBook);
+        //            await _context.SaveChangesAsync();
+        //            return Json(new { success = true });
+        //        }
+        //        return Json(new { success = false });
+        //    }
+
+        //    public async Task<bool> HasUserBoughtBook(BookShopUser user, int bookId)
+        //    {
+        //        return await _context.UserBooks.AnyAsync(ub => ub.AppUser == user.Id && ub.BookId == bookId);
+        //    }
 
     }
 }
-

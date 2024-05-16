@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Book>
+
+@{
+    ViewData["Title"] = "MyBooks";
+}
+<body style="
+      background-image: url('https://p16-flow-sign-va.ciciai.com/ocean-cloud-tos-us/63092a680a28409a911b894a16b97d39.png~tplv-6bxrjdptv7-image.png?rk3s=18ea6f23&x-expires=1747223458&x-signature=pgXzJcmOT5PvluaMW6zNe1lD4Vk%3D');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;">
+@if (Model != null && Model.Any())
+{
+        <h2 style="text-align:center; color:darkgreen">List of your books</h2>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        .book-card {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+            .book-card img {
+                flex: 0 0 192px; /* Задолжителен ширина за сликата */
+                height: 235px; /* Висина на сликата */
+            }
+
+            .book-card .card-body {
+                flex: 1; /* Преостанатата ширина да се разлисти меѓу текстот и копчињата */
+                margin-left: 1rem; /* Оддалечување на текстот од сликата */
+            }
+    </style>
+    <div class="container row" style="margin-left:2rem">
+        @foreach (var book in Model)
+        {
+            <div class="col-xs-12 col-md-6 bootstrap snippets bootdeys">
+                <div class="card book-card">
+                    <img src="@book.FrontPage" alt="Book cover">
+                        @{
+                            int suma = 0;
+                            int br = 0;
+                            int rating = 0;
+                            @foreach (var r in book.Reviews)
+                            {
+                                suma += r.Rating.GetValueOrDefault();
+                                br++;
+                            }
+                            if (br != 0) rating = (suma / br);
+                        }
+                        <div class="col-md-6 col-sm-6 col-xs-6" style="text-align:center;">
+                            <div class="rating">
+                                @for (int ii = 5; ii > 0; ii--)
+                                {
+                                    if (ii > rating)
+                                    {
+                                        <label><i class="fa fa-star"></i></label>
+                                    }
+                                    else
+                                    {
+                                        <label><i class="fa fa-star text-primary"></i></label>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    <div class="card-body">
+                        <h5 class="card-title"><b>@book.Title</b></h5>
+                        <p class="card-text">Genre: @string.Join(", ", book.BookGenres.Select(bg => bg.Genre.GenreName))</p>
+                        <p class="card-text">Author: @book.Author.FirstName @book.Author.LastName</p>
+                        <p class="card-text">Year Published: @book.YearPublished</p>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" class="btn btn-success">Details</a>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                <form method="post" asp-controller="UserBooks" asp-action="Delete" asp-route-id="@book.Id">
+                                    <button type="submit" class="btn btn-danger float-end">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <h1>You don't have any books!</h1>
+    <a asp-controller="Books" asp-action="Index" type="button" class="btn btn-primary">Go back</a>
+}
+</body>

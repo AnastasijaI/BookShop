@@ -108,7 +108,7 @@
                                     {
                                         <a class="btn btn-danger text-white float-end" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i>Delete</a>
                                     }
-                                    @if (User.Identity.IsAuthenticated)
+                                    @if (User.Identity.IsAuthenticated && !User.IsInRole("Admin"))
                                     {
                                         <form class="float-end" method="post" asp-controller="Books" asp-action="Buy" asp-route-bookId="@item.Id">
                                             <button type="submit">Buy</button>

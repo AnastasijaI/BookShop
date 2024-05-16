@@ -8,6 +8,24 @@ namespace BookShop.Data
 {
     public class AppDbInitializer
     {
+        //ова
+        //public static async Task CreateUserBooks(IServiceProvider serviceProvider, string userEmail, int bookId)
+        //{
+        //    var UserManager = serviceProvider.GetRequiredService<UserManager<BookShopUser>>();
+        //    var context = serviceProvider.GetRequiredService<AppDbContext>();
+
+        //    BookShopUser user = await UserManager.FindByEmailAsync(userEmail);
+        //    if (user != null)
+        //    {
+        //        UserBook userBook = new UserBook
+        //        {
+        //            AppUser = user.Id,
+        //            BookId = bookId
+        //        };
+        //        context.UserBooks.Add(userBook);
+        //        await context.SaveChangesAsync();
+        //    }
+        //}
         public static async Task CreateUserRoles(IServiceProvider serviceProvider)
         {
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -27,6 +45,8 @@ namespace BookShop.Data
                 //Add default User to Role Admin 
                 if (chkUser.Succeeded) { var result1 = await UserManager.AddToRoleAsync(User, "Admin"); }
             }
+            //ова
+            //await CreateUserBooks(serviceProvider, "admin@mvcmovie.com", 1);
         }
         public static void Seed(IApplicationBuilder applicationBuilder)
         {

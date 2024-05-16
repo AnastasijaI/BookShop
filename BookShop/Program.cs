@@ -46,7 +46,7 @@ namespace BookShop
             builder.Services.AddScoped<IGenresService, GenresService>();
             builder.Services.AddScoped<IReviewsService, ReviewsService>();
             builder.Services.AddScoped<IBooksGenresService, BooksGenresService>();
-
+            builder.Services.AddScoped<IUserBooksService, UserBooksService>();
             
 
             //if (args.Length == 1 && args[0].ToLower() == "seeddata")
@@ -125,6 +125,10 @@ namespace BookShop
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Books}/{action=Index}/{id?}");
+
+            app.MapControllerRoute(
+               name: "userBooks",
+                pattern: "{controller=UserBooks}/{action=Index}/{id?}");
 
             app.MapRazorPages();
 
